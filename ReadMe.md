@@ -36,7 +36,7 @@ Here's an example of what a log JSON contains:
     │
     │── plugins                         
     │   └── helpers                     
-    │   │   └── sql_queries.py          # SQL syntax for inserted data into created tables
+    │   │   └── sql_queries.py          # SQL syntax for inserting data into created tables
     │   └── operators                   
     │       ├── data_quality.py         # Class object that runs data quality checks 
     │       ├── load_dimension.py       # DAG Operator that loads data into dimension tables
@@ -68,7 +68,7 @@ run_data_quality_checks >> end_operator
 
 ## Airflow Connections
 
-You'll need to add your AWS IAM credentials and Redshift config following these steps in Airflow UI:
+You'll need to add your AWS IAM credentials and Redshift config following these steps in the Airflow UI:
 
 1. Admin tab -> Connections
 ![admin connections!](./img/airflow-connections.png "admin connections")
