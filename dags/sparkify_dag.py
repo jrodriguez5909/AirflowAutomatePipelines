@@ -4,11 +4,8 @@ from airflow import DAG
 from airflow.operators.dummy_operator import DummyOperator
 from airflow.operators import (StageToRedshiftOperator, LoadFactOperator,
                                 LoadDimensionOperator, DataQualityOperator)
-from helpers import SqlQueries
+from helpers import SqlQueries, DataQualityTest
 from datetime import datetime, timedelta
-
-# AWS_KEY = os.environ.get('AWS_KEY')
-# AWS_SECRET = os.environ.get('AWS_SECRET')
 
 default_args = {
     'owner': 'june',
@@ -108,11 +105,12 @@ load_time_dimension_table = LoadDimensionOperator(
     truncate=True
 )
 
+tables = ['artists', 'songplays', 'songs', 'staging_events', 'staging_songs', 'time', 'users']
 run_data_quality_checks = DataQualityOperator(
     task_id='Run_data_quality_checks',
     dag=dag,
     redshift_conn_id="redshift",
-    tables=["public.songplays", "public.artists", "public.time", "public.songs", "public.users"]
+    tests=[DataQualityTest.no_results_test(table) for table in tables]
 )
 
 end_operator = DummyOperator(
